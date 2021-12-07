@@ -16,10 +16,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
     <link rel="stylesheet"
-        href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
-    <link rel="stylesheet"
-        href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
-    <link rel="stylesheet"
         href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <link rel="stylesheet" href="assets/os/assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/codemirror.css'>
@@ -35,19 +31,39 @@
 </head>
 
 <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar-icon-container">
+                    <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i
+                            class="fa fa-bars fa-lg white"></i></a>
+                    <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i
+                            class="fa fa-search fa-lg white"></i></a>
+                </div>
+                <a class="navbar-brand" href="tool.html"><img src="assets/os/img/logo.png"
+                        style="height: 60px;padding-top: 2px;" alt="logo"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="index.html"><i class="fa fa-home-circle"></i>&nbsp;&nbsp;Home</a></li>
+
+                    <li class="hidden-xs"><a data-toggle="modal" href="#aboutModal"><i
+                                class="fa fa-question-circle"></i>&nbsp;&nbsp;How To Use</a></li>
+                </ul>
+            </div>
+            <!--/.navbar-collapse -->
+        </div>
+    </div>
     <div id="container">
         <div id="map"></div>
         <div id="results">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">JSON</a></li>
                 <li><a data-toggle="tab" href="#parameters">Parameters</a></li>
-                <li><a data-toggle="tab" href="#api">API Request</a></li>
+                <li><a data-toggle="tab" href="#api">Specification</a></li>
                 <li><a data-toggle="tab" href="#smart">Smart Contract Code</a></li>
-                <!-- <li><a data-toggle="tab" href="#menu2">Help</a></li> -->
-                <a class="btn" data-toggle="modal" href="#aboutModal"
-                    style="float: right;margin-top: 2px; margin-right: 15px;"><i class="fa fa-question-circle"></i>
-                    About
-                    DEFI</a>
+
             </ul>
 
             <div class="tab-content">
@@ -59,7 +75,6 @@
                     <div class="row">
                         <div class="col-md-8" style="margin-left:15px;">
                             <form id="paramsForm">
-
                                 <label for="dataset">Dataset <span class="asteriskField">*</span></label>
                                 <select id="dataset" class="form-control" required>
                                     <option value="">--------------------------</option>
@@ -76,11 +91,11 @@
                                 <label for="stats">Statistics <span class="asteriskField">*</span></label>
                                 <select id="stats" class="form-control" required>
                                     <option value="">--------------------------</option>
-                                    <option value="Min">Min</option>
-                                    <option value="Max">Max</option>
-                                    <option value="Median">Median</option>
-                                    <option value="Mean">Mean</option>
-                                    <option value="Variance">Variance</option>
+                                    <option value="min">Min</option>
+                                    <option value="max">Max</option>
+                                    <option value="median">Median</option>
+                                    <option value="mean">Mean</option>
+                                    <option value="variance">Variance</option>
                                 </select>
                                 <br>
                                 <label for="threshold">Threshold <span class="asteriskField">*</span></label>
@@ -117,31 +132,47 @@
                     <textarea id="apicode" name="apicode"></textarea>
                 </div>
                 <div id="smart" class="tab-pane">
+                    <button class="btn btn-primary clip-btn-jquery btn-rounded" data-toggle="tooltip" title="Copy">
+                        <span class="fa fa-copy"> Copy</span>
+                    </button>
                     <textarea id="smartcode" name="smartcode"></textarea>
+
                 </div>
 
             </div>
 
         </div>
-        <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">About Defi</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>DEFI simply means awesomeness. Btw thats true!!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-
     </div>
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">How To Use This Tool</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-style-5">
+                        <li>First use the insights tool to determine the parameters for your area of interest.</li>
+                        <li>The web map allows you to search for an area and designate its boundary.</li>
+                        <li>Use the search input to search by name and zoom into your area of interest.</li>
+                        <li>Use the drawing tools on the web map to specify what your area of interest is.</li>
+                        <li>This will generate some Geojson that describes the boundaries of this area.</li>
+                        <li> Next use the input tab to specify the dataset-metric-threshold combination.</li>
+                        <li>Select the options for each input field and submit the form to generate code.</li>
+                        <li>On the request tab, you will find the Json representation of your specification.</li>
+                        <li>On the code tab, you will find the smart contract boilerplate code with these specs.
+                        </li>
+                        <li>Copy this code from this tab and into your favorite development environment.</li>
+                        <li>The code allows you to get geospatial data for an area into your smart contract.</li>
+                        <li>You can now use this data in any real-world application you are developing</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="assets/os/datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -164,6 +195,7 @@
     <script src="assets/os/codemirror/matchbrackets.js"></script>
     <script src="assets/os/codemirror/foldcode.js"></script>
     <script src="assets/os/assets/js/Control.Geocoder.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.2/clipboard.min.js"></script>
     <script src="assets/os/assets/js/app.js"></script>
     <script src="assets/os/assets/js/datasets.js"></script>
     <script src="assets/os/assets/js/code.js"></script>
@@ -174,14 +206,22 @@
             todayHighlight: true,
             changeMonth: true,
             changeYear: true,
-            format: 'yyyy-mm-dd'
+            format: 'yyyy-mm-dd',
+            // endDate: new Date()
+        }).on('changeDate', function (selected) {
+            var minDate = new Date(selected.date.valueOf());
+            $('#id_end_date').datepicker('setStartDate', minDate);
         });
         $('#id_end_date').datepicker({
             autoclose: true,
             todayHighlight: true,
             changeMonth: true,
             changeYear: true,
-            format: 'yyyy-mm-dd'
+            format: 'yyyy-mm-dd',
+            // endDate: new Date()
+        }).on('changeDate', function (selected) {
+            var maxDate = new Date(selected.date.valueOf());
+            $('#id_start_date').datepicker('setEndDate', maxDate);
         });
         var editor, seditor;
         $(function () {
@@ -202,7 +242,7 @@
                 autoCloseTags: true,
                 autoRefresh: true,
                 autofocus: true,
-                mode: 'javascript',
+                mode: '"text/plain"',
                 lineWrapping: true,
                 extraKeys: { "Ctrl-Q": function (cm) { cm.foldCode(cm.getCursor()) } },
                 foldGutter: true,
@@ -210,74 +250,90 @@
             });
             smarteditor = CodeMirror.fromTextArea(document.getElementById("smartcode"), {
                 lineNumbers: true,
-                styleActiveLine: true,
-                matchBrackets: true,
                 autoCloseTags: true,
                 autoRefresh: true,
                 autofocus: true,
-                mode: 'javascript',
+                mode: 'application/html',
                 lineWrapping: true,
-                extraKeys: { "Ctrl-Q": function (cm) { cm.foldCode(cm.getCursor()) } },
-                foldGutter: true,
-                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
             // setTimeout(seditor.refresh, 1)
         });
 
         $(document).on('submit', '#paramsForm', function (e) {
-            e.preventDefault();
-            console.log('Editor content', editor.doc.getValue())
-            var outputCode = {
-                "dataset": $('#dataset').val(),
-                "band": $('#bands').val(),
-                "scale": $('#scale').val(),
-                "start_date": $('#id_start_date').val(),
-                "end_date": $('#id_end_date').val(),
-                // "output": "time_series",
-                "statistics": $('#stats').val(),
-                "geometry": JSON.parse(editor.doc.getValue())
+            if (editor.doc.getValue()) {
+
+                e.preventDefault();
+                var outputCode = {
+                    "dataset": $('#dataset').val(),
+                    "band": $('#bands').val(),
+                    "scale": $('#scale').val(),
+                    "start_date": $('#id_start_date').val(),
+                    "end_date": $('#id_end_date').val(),
+                    // "output": "time_series",
+                    "geometry": JSON.parse(editor.doc.getValue())
+                }
+                seditor.setValue(JSON.stringify(outputCode, null, 4));
+                seditor.setOption('mode', 'javascript');
+
+                $('a[href="#api"]').click();
+                $("#apicode").focus();
+                setTimeout(function () {
+                    seditor.refresh();
+                }, 1);
+
+                // Generate smart contract
+                var b = '\ndataset_code = "' + $("#dataset").val() +
+                    '"; \n' + 'selected_band = "' + $("#bands").val() + '"; \n' +
+                    'image_scale = ' + ($("#scale").val() * 100) + ';\n' +
+                    'start_date = "' + $("#id_start_date").val() + '";\n' +
+                    'end_date = "' + $("#id_end_date").val() + '";\n' +
+                    'geometry = "' + (JSON.stringify(JSON.parse(editor.doc.getValue()))).replace(/"/g, '\'') + '";\n' +
+                    'jobId = ' + $("#stats").val() + ';\n' +
+                    'threshold = ' + $('#threshold').val() + ';\n'
+
+                let firstBlockText;
+                let lastBlockText;
+                const getCodeBlocks = async () => {
+                    firstBlockText = firstBlock;
+                    lastBlockText = lastBlock
+                };
+                window.onload = e => getCodeBlocks();
+                var finalCode = firstBlock + b + lastBlock
+                smarteditor.setValue(finalCode);
+                // smarteditor.setOption("mode", "text/plain");
+                // console.log(smarteditor.doc.getValue())
+
+
+                $('#paramsForm').trigger("reset");
+
             }
-            seditor.setValue(JSON.stringify(outputCode, null, 4));
-            seditor.setOption('mode', 'javascript');
-            console.log(seditor.doc.getValue())
-
-
-            $('a[href="#api"]').click();
-            $("#apicode").focus();
-            seditor.refresh();
-
-            // Generate smart contract
-            var b = "\nuint256 dataset_code = '" + $('#dataset').val() +
-                "';\n" + "uint256 selected_band = '" + $('#bands').val() + "';\n" +
-                "uint256 image_scale = " + ($('#scale').val() * 100) + ";\n" +
-                "uint256 start_date = '" + $('#id_start_date').val() + "';\n" +
-                "uint256 end_date = '" + $('#id_end_date').val() + "';\n" +
-                "uint256 output = " + "'aggregate'" + ";\n" +
-                "uint256 geometry = " + editor.doc.getValue() + ";\n" +
-                "uint256 jobid = '" + $('#stats').val() + "';\n" + "uint256 threshold = " + $('#threshold').val() + ";\n"
-            console.log('This is the smart code', b)
-            let firstBlockText;
-            let lastBlockText;
-            const getCodeBlocks = async () => {
-                firstBlockText = firstBlock;
-                lastBlockText = lastBlock
-            };
-            window.onload = e => getCodeBlocks();
-            console.log('First block', firstBlockText)
-
-            var finalCode = firstBlock + b + lastBlock
-
-            smarteditor.setValue(finalCode);
-            // smarteditor.setOption('mode', 'javascript');
-            console.log(smarteditor.doc.getValue())
-
-
-            $('#paramsForm').trigger("reset");
+            else {
+                e.preventDefault();
+                alert('Make sure you have drawn an area on the map');
+            }
 
         });
-        // setTimeout(function () {
-        //     seditor.refresh();
-        // }, 1);
+        $('.nav-tabs a').on('shown.bs.tab', function () {
+            editor.refresh();
+            seditor.refresh();
+            smarteditor.refresh();
+        });
+        $(function () {
+            var editorSelector = '#smarteditor'
+            // Instantiate Bootstrap tooltips.
+            $('[data-toggle="tooltip"]').tooltip();
+
+            new Clipboard('.clip-btn-jquery', {
+                text: function (trigger) {
+                    return smarteditor.doc.getValue();
+                }
+            });
+
+
+        });
+
+
+
 
 
 
@@ -345,6 +401,7 @@
         window.onload = e => fetchDatasets();
 
     </script>
+
     <!-- <script src="assets/os/custom/modals.js'%}"></script> -->
 </body>
 

@@ -3,6 +3,9 @@ html, body, #container {
   width: 100%;
   overflow: hidden;
 }
+body {
+  padding-top: 90px;
+}
 input[type="radio"], input[type="checkbox"] {
   margin: 0;
 }
@@ -11,13 +14,14 @@ input[type="radio"], input[type="checkbox"] {
   width: 60%;
   height: 100%;
   max-width: 100%;
+  /* margin-top: 90px; */
   float: left;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 #results {
   width: 40%;
   height: 100%;
-  /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+  /* margin-top: 90px; */
   float: right;
 }
 #loading {
@@ -120,13 +124,53 @@ input[type="radio"], input[type="checkbox"] {
   }
 }
 
-.CodeMirror {
+/* .CodeMirror {
     font-family: monospace;
-    height: 100vh;
+    height: 90vh;
     color: black;
+} */
+.CodeMirror {
+  font-size: 8pt;
+  height: 86vh;
+ 
 }
 
 .generateCode {
   float: right;
   margin-right: 5px;
+}
+.logo .img {
+  height: 80px;
+}
+.navbar-inverse {
+    background-color: #F5FAFD;
+    border-bottom: 3px solid #672E87;
+    /* border-bottom-color: #672E87;
+    border-width: 3px; */
+}
+
+.navbar-nav>li>a {
+    padding-top:35px;
+    padding-bottom: 15px;
+}
+
+.navbar-brand {
+    float: left;
+    height: 90px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: #222;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #222;
+}
+
+button.btn {
+  margin-left: 5px;
+}
+.asteriskField {
+  color: red;
 }

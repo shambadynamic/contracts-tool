@@ -2,23 +2,31 @@ var map;
 
 /* Basemap Layers */
 var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-   maxZoom: 20,
+   maxZoom: 22,
    subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
  });
 var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png", {
-  maxZoom: 19,
+  maxZoom: 22,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 });
-var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}", {
-  maxZoom: 15,
-}), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
-  minZoom: 16,
-  maxZoom: 19,
-  layers: "0",
-  format: 'image/jpeg',
-  transparent: true,
-  attribution: "Aerial Imagery courtesy USGS"
-})]);
+// var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}", {
+//   maxZoom: 22,
+// }), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
+//   minZoom: 22,
+//   maxZoom: 10,
+//   layers: "0",
+//   format: 'image/jpeg',
+//   transparent: true,
+//   attribution: "Aerial Imagery courtesy USGS"
+// })]);
+ var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+})
 
 map = L.map("map", {
   zoom: 3,
@@ -33,7 +41,7 @@ var attributionControl = L.control({
 });
 attributionControl.onAdd = function (map) {
   var div = L.DomUtil.create("div", "leaflet-control-attribution");
-  div.innerHTML = "<span class='hidden-xs'>Powered by <a href='http://shamba.link'>Shamba Dynamic</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
+  div.innerHTML = "<span class='hidden-xs'>Powered by <a href='http://shamba.link'>Shamba</a> | </span><a href='#' onclick='$(\"#attributionModal\").modal(\"show\"); return false;'>Attribution</a>";
   return div;
 };
 map.addControl(attributionControl);
@@ -82,13 +90,11 @@ if (document.body.clientWidth <= 767) {
 }
 
 var baseLayers = {
-  "Google Map": googleStreets,
-  "CartoLight Map": cartoLight,
-  "Aerial Imagery": usgsImagery
+  "Google Basemap": googleStreets,
+  "CartoLight Basemap": cartoLight,
+  "Satellite Imagery": googleSat,
+  "Hybrid Basemap": googleHybrid
 };
-
-
-
 var layerControl = L.control.groupedLayers(baseLayers, {
   collapsed: isCollapsed,
 }).addTo(map);
@@ -103,8 +109,7 @@ var editableLayers = new L.FeatureGroup();
             iconSize: new L.Point(24, 24),
             iconUrl: 'link/to/image.png'
         }
-    });
-    
+    });    
     var options = {
         position: 'topright',
         draw: {
@@ -142,23 +147,16 @@ var editableLayers = new L.FeatureGroup();
             featureGroup: editableLayers, //REQUIRED!!
             remove: false
         }
-    };
-    
+    };    
     var drawControl = new L.Control.Draw(options);
-    map.addControl(drawControl);
-    
+    map.addControl(drawControl);    
     map.on(L.Draw.Event.CREATED, function (e) {
         var type = e.layerType,
             layer = e.layer; 
-        // if(map.hasLayer(editableLayers)){
-        //   editableLayers.clearLayers()
-        // }
-        
         if (type === 'polygon' || type === 'rectangle') { 
             editableLayers.addLayer(layer);         
             editor.setValue(JSON.stringify(editableLayers.toGeoJSON(), null, 4));
             editor.setOption('mode', 'text/javascript');
-            
         }
         if (type === 'circle') {
           var theCenterPt = layer.getLatLng();
@@ -180,12 +178,7 @@ var editableLayers = new L.FeatureGroup();
           });  
           editor.setValue(JSON.stringify(editableLayers.toGeoJSON(), null, 4));
           editor.setOption('mode', 'text/javascript');
-          
-        }    
-       
-      
-
-        
+        }     
     });
     var _geocoderType = L.Control.Geocoder.nominatim();
   var geocoder = L.Control.geocoder({

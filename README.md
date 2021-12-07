@@ -1,12 +1,29 @@
 # README #
 
-This tool provides developers with a simple way to integrate geospatial data into smart contracts.
+This README would normally document whatever steps are necessary to get your application up and running.
 
-## Link to the actual application
-https://gracious-meninsky-d2d61a.netlify.app
+### What is this repository for? ###
 
+* Quick summary
+* Version
+* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+
+### How do I get set up? ###
+
+* Summary of set up
+* Configuration
+* Dependencies
+* Database configuration
+* How to run tests
+* Deployment instructions
+
+### Contribution guidelines ###
+
+* Writing tests
+* Code review
+* Other guidelines
 
 ### Who do I talk to? ###
 
-For questions or support, reach out to the Shamba team at:
- https://shamba.link
+* Repo owner or admin
+* Other community or team contact

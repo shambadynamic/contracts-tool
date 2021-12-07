@@ -1,77 +1,70 @@
-firstBlock = '// SPDX-License-Identifier: MIT \  \npragma solidity ^0.8.7; \n \
-import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";  \n \
-import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol"; \n \
-contract ATestnetConsumer is ChainlinkClient, ConfirmedOwner { \n \
-  using Chainlink for Chainlink.Request; \n \
-  uint256 constant private ORACLE_PAYMENT = 1 * LINK_DIVISIBILITY; \n \
-  uint256 public currentPrice; \n \
-  int256 public changeDay; \n \
-  bytes32 public lastMarket; \n \
-  mean = 123000; \n \
-  median = 234000;  \n \
-  max = 345000; \n \
-  min = 456000; \n \
-  variance = 567000; \n '
-
-lastBlock = '\nconstructor() ConfirmedOwner(msg.sender){ \n\
-    setPublicChainlinkToken();}\n\
-  function requestEthereumPrice(address _oracle, string memory _jobId)\n\
-    public\n\
-    onlyOwner\n\
-  {\n\
-    Chainlink.Request memory req = buildChainlinkRequest(stringToBytes32(_jobId), address(this), this.fulfillEthereumPrice.selector);\n\
-    req.add("get", "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD");\n\
-    req.add("path", "USD");\n\
-    req.addInt("times", 100);\n\
-    sendChainlinkRequestTo(_oracle, req, ORACLE_PAYMENT);\n\
-  }\n\
-  function requestEthereumChange(address _oracle, string memory _jobId)\n\
-    public\n\
-    onlyOwner\n\
-  {\n\
-    Chainlink.Request memory req = buildChainlinkRequest(stringToBytes32(_jobId), address(this), this.fulfillEthereumChange.selector);\n\
-    req.add("get", "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");\n\
-    req.add("path", "RAW.ETH.USD.CHANGEPCTDAY");\n\
-    req.addInt("times", 1000000000);\n\
-    sendChainlinkRequestTo(_oracle, req, ORACLE_PAYMENT);\n\
-  }\n\
-  function requestEthereumLastMarket(address _oracle, string memory _jobId)\n\
-    public\n\
-    onlyOwner\n\
-  {\n\
-    Chainlink.Request memory req = buildChainlinkRequest(stringToBytes32(_jobId), address(this), this.fulfillEthereumLastMarket.selector);\n\
-    req.add("get", "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD");\n\
-    string[] memory path = new string[](4);\n\
-    path[0] = "RAW";\n\
-    path[1] = "ETH";\n\
-    path[2] = "USD";\n\
-    path[3] = "LASTMARKET";\n\
-    req.addStringArray("path", path);\n\
-    sendChainlinkRequestTo(_oracle, req, ORACLE_PAYMENT);\n\
-  }\n\
-  function withdrawLink() public onlyOwner {\n\
-    LinkTokenInterface link = LinkTokenInterface(chainlinkTokenAddress());\n\
-    require(link.transfer(msg.sender, link.balanceOf(address(this))), "Unable to transfer");\n\
-  }\n\
-  function cancelRequest(\n\
-    bytes32 _requestId,\n\
-    uint256 _payment,\n\
-    bytes4 _callbackFunctionId,\n\
-    uint256 _expiration\n\
-  )\n\
-    public\n\
-    onlyOwner\n\
-  {\n\
-    cancelChainlinkRequest(_requestId, _payment, _callbackFunctionId, _expiration);\n\
-  }\n\
-  function stringToBytes32(string memory source) private pure returns (bytes32 result) {\n\
-    bytes memory tempEmptyStringTest = bytes(source);\n\
-    if (tempEmptyStringTest.length == 0) {\n\
-      return 0x0;\n\
-    }\n\
-    assembly { \n\
-      result := mload(add(source, 32))\n\
-    }\n\
-  }\n\
-}\n\
+firstBlock = '// SPDX-License-Identifier: MIT\n\
+pragma solidity ^0.8.7;\n\
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";\n\
+import "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";\n\
+contract GeospatialConsumer is ChainlinkClient, ConfirmedOwner {\n\
+using Chainlink for Chainlink.Request;\n\
+uint256 constant private ORACLE_PAYMENT = 0.1 * 10 ** 18; // 0.1 LINK\n\
+uint256 public currentData;\n\
+//declaring Shamba oracle address and jobids\n\
+address private oracle;\n\
+bytes32 private mean;\n\
+bytes32 private max;\n\
+bytes32 private min;\n\
+bytes32 private median;\n\
+bytes32 private variance;\n\
+//declaring user specified parameters\n\
+string public dataset_code;\n\
+string public selected_band;\n\
+string public start_date;\n\
+string public end_date;\n\
+uint256 public image_scale;\n\
+string public geometry;\n\
+bytes32 public jobId;\n\
+uint256 public threshold;\n\
+//this event is emitted on successfull request fulfillment\n\
+event RequestGeospatialDataFulfilled(\n\
+bytes32 indexed requestId,\n\
+uint256 indexed data\n\
+);\n\
+//this is where we initialize state variables\n\
+constructor() ConfirmedOwner(msg.sender){\n\
+setPublicChainlinkToken();\n\
+//here we initialize the oracle address and jobids\n\
+oracle =  0xd5CEd81bcd8D8e06E6Ca67AB9988c92CA78EEfe6;\n\
+mean =  "a373c304c48440b28f839daac5fed087";\n\
+max =  "a373c304c48440b28f839daac5fed087";\n\
+min =  "a373c304c48440b28f839daac5fed087";\n\
+median =  "a373c304c48440b28f839daac5fed087";\n\
+variance =  "a373c304c48440b28f839daac5fed087";\n\
+//code block populated by contracts tool\n\
 '
+lastBlock = '\n//variable code block ends\n\
+}\n\
+//here we build the request\n\
+function requestGeospatialData()\n\
+public\n\
+onlyOwner\n\
+{\n\
+Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfillGeospatialData.selector);\n\
+req.add("dataset_code", dataset_code);\n\
+req.add("selected_band", selected_band);\n\
+req.add("geometry", geometry);\n\
+req.add("start_date", start_date);\n\
+req.add("end_date", end_date);\n\
+req.add("image_scale", image_scale);\n\
+//Multiply the result by 1000000000000000000 to remove decimals\n\
+int timesAmount = 10**18;\n\
+req.addInt("times", timesAmount);\n\
+sendChainlinkRequestTo(oracle, req, ORACLE_PAYMENT);\n\
+}\n\
+//This is the callback function\n\
+//currentData is the variable that holds the data from the oracle\n\
+function fulfillGeospatialData(bytes32 _requestId, uint256 _data)\n\
+public\n\
+recordChainlinkFulfillment(_requestId)\n\
+{\n\
+emit RequestGeospatialDataFulfilled(_requestId, _data);\n\
+currentData = _data;\n\
+}\n\
+}\n\ '
