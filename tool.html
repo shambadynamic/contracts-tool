@@ -59,7 +59,7 @@
         <div id="map"></div>
         <div id="results">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">JSON</a></li>
+                <li class="active"><a data-toggle="tab" href="#home">Area</a></li>
                 <li><a data-toggle="tab" href="#parameters">Parameters</a></li>
                 <li><a data-toggle="tab" href="#api">Specification</a></li>
                 <li><a data-toggle="tab" href="#smart">Smart Contract Code</a></li>
@@ -98,9 +98,9 @@
                                     <option value="variance">Variance</option>
                                 </select>
                                 <br>
-                                <label for="threshold">Threshold <span class="asteriskField">*</span></label>
+                                <!-- <label for="threshold">Threshold <span class="asteriskField">*</span></label>
                                 <input id="threshold" type="number" class="form-control" required />
-                                <br>
+                                <br> -->
 
                                 <div id="div_id_start_date" class="form-group">
                                     <label for="id_start_date" class=" requiredField">Start date <span
@@ -151,21 +151,12 @@
                     <h4 class="modal-title">How To Use This Tool</h4>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-style-5">
-                        <li>First use the insights tool to determine the parameters for your area of interest.</li>
-                        <li>The web map allows you to search for an area and designate its boundary.</li>
-                        <li>Use the search input to search by name and zoom into your area of interest.</li>
-                        <li>Use the drawing tools on the web map to specify what your area of interest is.</li>
-                        <li>This will generate some Geojson that describes the boundaries of this area.</li>
-                        <li> Next use the input tab to specify the dataset-metric-threshold combination.</li>
-                        <li>Select the options for each input field and submit the form to generate code.</li>
-                        <li>On the request tab, you will find the Json representation of your specification.</li>
-                        <li>On the code tab, you will find the smart contract boilerplate code with these specs.
-                        </li>
-                        <li>Copy this code from this tab and into your favorite development environment.</li>
-                        <li>The code allows you to get geospatial data for an area into your smart contract.</li>
-                        <li>You can now use this data in any real-world application you are developing</li>
-                    </ul>
+                    <ol class="list-style-5">
+                        <li>Use the search tool to find the general area of interest.</li>
+                        <li>Use the draw tools to specify the boundary of the area.</li>
+                        <li>Use the form on the parameters tab to input your specs.</li>
+                        <li>Find the specifications codified in the smart contract tab.</li>
+                    </ol>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -261,7 +252,6 @@
 
         $(document).on('submit', '#paramsForm', function (e) {
             if (editor.doc.getValue()) {
-
                 e.preventDefault();
                 var outputCode = {
                     "dataset": $('#dataset').val(),
@@ -274,22 +264,19 @@
                 }
                 seditor.setValue(JSON.stringify(outputCode, null, 4));
                 seditor.setOption('mode', 'javascript');
-
                 $('a[href="#api"]').click();
                 $("#apicode").focus();
                 setTimeout(function () {
                     seditor.refresh();
                 }, 1);
-
                 // Generate smart contract
-                var b = '\ndataset_code = "' + $("#dataset").val() +
-                    '"; \n' + 'selected_band = "' + $("#bands").val() + '"; \n' +
-                    'image_scale = ' + ($("#scale").val() * 100) + ';\n' +
-                    'start_date = "' + $("#id_start_date").val() + '";\n' +
-                    'end_date = "' + $("#id_end_date").val() + '";\n' +
-                    'geometry = "' + (JSON.stringify(JSON.parse(editor.doc.getValue()))).replace(/"/g, '\'') + '";\n' +
-                    'jobId = ' + $("#stats").val() + ';\n' +
-                    'threshold = ' + $('#threshold').val() + ';\n'
+                var b = '{\"agg_x\" : "' + 'agg_' + $("#stats").val() + '",' +
+                    '\"dataset_code\" : "' + $("#dataset").val() + '",' +
+                    '\"selected_band\" : "' + $("#bands").val() + '",' +
+                    '\"image_scale\" : ' + $("#scale").val() + ',' +
+                    '\"start_date\" : "' + $("#id_start_date").val() + '",' +
+                    '\"end_date\" : "' + $("#id_end_date").val() + '",' +
+                    '\"geometry\" : ' + JSON.stringify(JSON.parse(editor.doc.getValue())) + '}");'
 
                 let firstBlockText;
                 let lastBlockText;
@@ -298,12 +285,8 @@
                     lastBlockText = lastBlock
                 };
                 window.onload = e => getCodeBlocks();
-                var finalCode = firstBlock + b + lastBlock
+                var finalCode = firstBlock + JSON.stringify(b) + lastBlock
                 smarteditor.setValue(finalCode);
-                // smarteditor.setOption("mode", "text/plain");
-                // console.log(smarteditor.doc.getValue())
-
-
                 $('#paramsForm').trigger("reset");
 
             }

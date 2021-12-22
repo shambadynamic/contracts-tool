@@ -182,7 +182,8 @@ var editableLayers = new L.FeatureGroup();
     });
     var _geocoderType = L.Control.Geocoder.nominatim();
   var geocoder = L.Control.geocoder({
-    geocoder: _geocoderType
+    geocoder: _geocoderType,
+    collapsed: false,
   }).addTo(map);
 
   geocoder.on('markgeocode', function(event) {
