@@ -24,7 +24,7 @@ address(this),\n\
 this.fulfillGeospatialData.selector\n\
 );\n\
 req.add("data",'
-lastBlock ='\nreturn sendChainlinkRequestTo(oracle, req, ORACLE_PAYMENT);\n\
+lastBlock =');\nreturn sendChainlinkRequestTo(oracle, req, ORACLE_PAYMENT);\n\
 }\n\
 //This is the callback function\n\
 //currentData is the variable that holds the data from the oracle\n\
