@@ -36,112 +36,138 @@
             <div class="navbar-header">
                 <div class="navbar-icon-container">
                     <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i
-                            class="fa fa-bars fa-lg white"></i></a>
+                            class="fa fa-caret fa-lg "></i></a>
                     <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i
-                            class="fa fa-search fa-lg white"></i></a>
+                            class="fa fa-bars fa-lg"></i></a>
                 </div>
-                <a class="navbar-brand" href="tool.html"><img src="assets/os/img/logo.png"
-                        style="height: 60px;padding-top: 2px;" alt="logo"></a>
+                <a class="navbar-brand" href="#"><img src="assets/os/img/logo.png"
+                        style="height:50px;margin-top: -15px;"> </a>
             </div>
             <div class="navbar-collapse collapse">
-
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="index.html"><i class="fa fa-home-circle"></i>&nbsp;&nbsp;Home</a></li>
-
-                    <li class="hidden-xs"><a data-toggle="modal" href="#aboutModal"><i
+                    <!-- <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i
+                class="fa fa-home-circle"></i>&nbsp;&nbsp;Home</a></li> -->
+                    <li class="hidden-xs"><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in"
+                            id="list-btn"><i class="fa fa-list white"></i>&nbsp;&nbsp;Sidebar</a></li>
+                    <li class="hidden-xs"><a href="#aboutModal" data-toggle="modal"><i
                                 class="fa fa-question-circle"></i>&nbsp;&nbsp;How To Use</a></li>
                 </ul>
+
+
             </div>
             <!--/.navbar-collapse -->
         </div>
     </div>
     <div id="container">
-        <div id="map"></div>
-        <div id="results">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Area</a></li>
-                <li><a data-toggle="tab" href="#parameters">Parameters</a></li>
-                <li><a data-toggle="tab" href="#api">Specification</a></li>
-                <li><a data-toggle="tab" href="#smart">Smart Contract Code</a></li>
+        <div id="sidebar">
+            <div class="sidebar-wrapper">
+                <div class="panel panel-default" id="features">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Navigation Window
+                            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i
+                                    class="fa fa-chevron-left"></i></button>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="results">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#home">Area</a></li>
+                                <li><a data-toggle="tab" href="#parameters">Parameters</a></li>
+                                <li><a data-toggle="tab" href="#api">Specification</a></li>
+                                <li><a data-toggle="tab" href="#smart">Smart Contract Code</a></li>
 
-            </ul>
+                            </ul>
 
-            <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
-                    <textarea id="code" name="code"></textarea>
-                    <!-- <div id="code" style="width: 100%; height: auto;"></div> -->
-                </div>
-                <div id="parameters" class="tab-pane">
-                    <div class="row">
-                        <div class="col-md-8" style="margin-left:15px;">
-                            <form id="paramsForm">
-                                <label for="dataset">Dataset <span class="asteriskField">*</span></label>
-                                <select id="dataset" class="form-control" required>
-                                    <option value="">--------------------------</option>
-                                </select>
-                                <br>
-                                <label for="bands">Available bands <span class="asteriskField">*</span></label>
-                                <select id="bands" class="form-control" required>
-                                    <option value="">--------------------------</option>
-                                </select>
-                                <br>
-                                <label for="scale">Preferred Scale <span class="asteriskField">*</span></label>
-                                <input id="scale" type="number" class="form-control" required />
-                                <br>
-                                <label for="stats">Statistics <span class="asteriskField">*</span></label>
-                                <select id="stats" class="form-control" required>
-                                    <option value="">--------------------------</option>
-                                    <option value="min">Min</option>
-                                    <option value="max">Max</option>
-                                    <option value="median">Median</option>
-                                    <option value="mean">Mean</option>
-                                    <option value="variance">Variance</option>
-                                </select>
-                                <br>
-                                <!-- <label for="threshold">Threshold <span class="asteriskField">*</span></label>
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                    <textarea id="code" name="code"></textarea>
+                                    <!-- <div id="code" style="width: 100%; height: auto;"></div> -->
+                                </div>
+                                <div id="parameters" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-8" style="margin-left:15px;">
+                                            <form id="paramsForm">
+                                                <label for="dataset">Dataset <span
+                                                        class="asteriskField">*</span></label>
+                                                <select id="dataset" class="form-control" required>
+                                                    <option value="">--------------------------</option>
+                                                </select>
+                                                <br>
+                                                <label for="bands">Available bands <span
+                                                        class="asteriskField">*</span></label>
+                                                <select id="bands" class="form-control" required>
+                                                    <option value="">--------------------------</option>
+                                                </select>
+                                                <br>
+                                                <label for="scale">Preferred Scale <span
+                                                        class="asteriskField">*</span></label>
+                                                <input id="scale" type="number" class="form-control" required />
+                                                <br>
+                                                <label for="stats">Statistics <span
+                                                        class="asteriskField">*</span></label>
+                                                <select id="stats" class="form-control" required>
+                                                    <option value="">--------------------------</option>
+                                                    <option value="min">Min</option>
+                                                    <option value="max">Max</option>
+                                                    <option value="median">Median</option>
+                                                    <option value="mean">Mean</option>
+                                                    <option value="variance">Variance</option>
+                                                </select>
+                                                <br>
+                                                <!-- <label for="threshold">Threshold <span class="asteriskField">*</span></label>
                                 <input id="threshold" type="number" class="form-control" required />
                                 <br> -->
 
-                                <div id="div_id_start_date" class="form-group">
-                                    <label for="id_start_date" class=" requiredField">Start date <span
-                                            class="asteriskField">*</span> </label>
-                                    <div class=""> <input type="text" name="start_date" class="dateinput form-control"
-                                            required id="id_start_date"> </div>
+                                                <div id="div_id_start_date" class="form-group">
+                                                    <label for="id_start_date" class=" requiredField">Start date <span
+                                                            class="asteriskField">*</span> </label>
+                                                    <div class=""> <input type="text" name="start_date"
+                                                            class="dateinput form-control" required id="id_start_date">
+                                                    </div>
+                                                </div>
+                                                <div id="div_id_end_date" class="form-group">
+                                                    <label for="id_end_date" class=" requiredField">End date <span
+                                                            class="asteriskField">*</span> </label>
+                                                    <div class=""> <input type="text" name="end_date"
+                                                            class="dateinput form-control" required id="id_end_date">
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="buttonHolder">
+                                                    <input type="submit" name="submit" value="Submit"
+                                                        class="btn btn-primary btn btn-primary" id="submit-id-submit" />
+
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div id="div_id_end_date" class="form-group">
-                                    <label for="id_end_date" class=" requiredField">End date <span
-                                            class="asteriskField">*</span> </label>
-                                    <div class=""> <input type="text" name="end_date" class="dateinput form-control"
-                                            required id="id_end_date"></div>
+                                <div id="api" class="tab-pane">
+                                    <textarea id="apicode" name="apicode"></textarea>
                                 </div>
-                                <hr>
-                                <div class="buttonHolder">
-                                    <input type="submit" name="submit" value="Submit"
-                                        class="btn btn-primary btn btn-primary" id="submit-id-submit" />
+                                <div id="smart" class="tab-pane">
+                                    <button class="btn btn-primary clip-btn-jquery btn-rounded" data-toggle="tooltip"
+                                        title="Copy">
+                                        <span class="fa fa-copy"> Copy</span>
+                                    </button>
+                                    <textarea id="smartcode" name="smartcode"></textarea>
 
                                 </div>
 
-                            </form>
-
+                            </div>
 
                         </div>
                     </div>
 
                 </div>
-                <div id="api" class="tab-pane">
-                    <textarea id="apicode" name="apicode"></textarea>
-                </div>
-                <div id="smart" class="tab-pane">
-                    <button class="btn btn-primary clip-btn-jquery btn-rounded" data-toggle="tooltip" title="Copy">
-                        <span class="fa fa-copy"> Copy</span>
-                    </button>
-                    <textarea id="smartcode" name="smartcode"></textarea>
-
-                </div>
-
             </div>
-
         </div>
+        <div id="map"></div>
+
     </div>
     <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">

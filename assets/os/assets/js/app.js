@@ -1,5 +1,36 @@
 var map;
+$(window).resize(function() {
+  sizeLayerControl();
+});
+$("#list-btn").click(function() {
+  animateSidebar();
+  return false;
+});
 
+$("#nav-btn").click(function() {
+  $(".navbar-collapse").collapse("toggle");
+  return false;
+});
+$("#sidebar-toggle-btn").click(function() {
+  animateSidebar();
+  return false;
+});
+
+$("#sidebar-hide-btn").click(function() {
+  animateSidebar();
+  return false;
+});
+
+function animateSidebar() {
+  $("#sidebar").animate({
+    width: "toggle"
+  }, 350, function() {
+    map.invalidateSize();
+  });
+}
+function sizeLayerControl() {
+  $(".leaflet-control-layers").css("max-height", $("#map").height() - 50);
+}
 /* Basemap Layers */
 var googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
    maxZoom: 22,
@@ -9,16 +40,7 @@ var cartoLight = L.tileLayer("https://cartodb-basemaps-{s}.global.ssl.fastly.net
   maxZoom: 22,
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
 });
-// var usgsImagery = L.layerGroup([L.tileLayer("http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}", {
-//   maxZoom: 22,
-// }), L.tileLayer.wms("http://raster.nationalmap.gov/arcgis/services/Orthoimagery/USGS_EROS_Ortho_SCALE/ImageServer/WMSServer?", {
-//   minZoom: 22,
-//   maxZoom: 10,
-//   layers: "0",
-//   format: 'image/jpeg',
-//   transparent: true,
-//   attribution: "Aerial Imagery courtesy USGS"
-// })]);
+
  var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
     maxZoom: 20,
     subdomains:['mt0','mt1','mt2','mt3']
